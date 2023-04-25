@@ -27,10 +27,17 @@ module sequence_gen(O,I, clk, reset);
 endmodule
 
 
+
+
+
+
 module main;
     reg clk, reset, I;
     wire O;
     sequence_gen dut(.O(O), .I(I), .clk(clk), .reset(reset));
+  	$dumpfile("fsm.vcd");
+ 	$dumpvars(0,fsm);
+  $monitor("clk = %b I = %b O = %b",clk,I,O);
     
 
     always #1 clk = ~clk;
