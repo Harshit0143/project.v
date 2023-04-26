@@ -38,27 +38,29 @@ module test_bench();
   wire O;
   sequence_gen inst(O, I, clk, reset);
 
-  
-  // $monitor("clk = %b I = %b O = %b", clk, I, O);
-
   always #1 clk = ~clk;
-  always #18
-    begin 
-      I = 1;
-      #1;
-      I = 0;
-    end
-  // always @(posedge clk)
-  //  $display("Output O: %b", O);
+
+
 
   initial begin
     $dumpfile("graph.vcd");
     $dumpvars;
     clk = 1;
     reset = 1;
-    I = 0;
+ 	    I = 0;
     #5 reset = 0;
+    #2 
+    I = 1;
+    #2
+    I = 0;
+    #2 
+    I = 1;
+    #2
+    I = 0;
+
+    
 
     #100 $finish;
   end
 endmodule
+
