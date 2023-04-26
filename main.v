@@ -31,31 +31,33 @@ endmodule
 
 
 
-module main;
-    reg clk, reset, I;
-    wire O;
-    sequence_gen dut(.O(O), .I(I), .clk(clk), .reset(reset));
-  	$dumpfile("fsm.vcd");
- 	$dumpvars(0,fsm);
-  $monitor("clk = %b I = %b O = %b",clk,I,O);
-    
 
-    always #1 clk = ~clk;
-    always @(posedge clk)
-        $display("Output O: %b", O);
 
-    initial begin
-        clk = 0;
-        reset = 1;
-        I = 0;
-        #5  reset = 0;
-        #10 I = 1;
-        #11 I = 0;
-        #20 I = 1;
-        #21 I = 0; 
-    end
-    
 
-    
-    initial #100 $finish;
+module test_bench();
+  reg clk, reset, I;
+  wire O;
+  sequence_gen inst(O, I, clk, reset);
+
+  
+  // $monitor("clk = %b I = %b O = %b", clk, I, O);
+
+  always #1 clk = ~clk;
+  // always @(posedge clk)
+  //  $display("Output O: %b", O);
+
+  initial begin
+    $dumpfile("graph.vcd");
+    $dumpvars;
+    clk = 0;
+    reset = 1;
+    I = 0;
+    #5 reset = 0;
+    #10 I = 1;
+    #11 I = 0;
+    #20 I = 1;
+    #21 I = 0;
+    #100 $finish;
+  end
+
 endmodule
